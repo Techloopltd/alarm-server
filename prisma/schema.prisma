@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model VerificationOtp {
+  id        String           @id @default(uuid())
+  type      EVerificationOtp
+  otp       Int
+  createdAt DateTime         @default(now())
+  ownById   String
+  ownBy     User             @relation(fields: [ownById], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id              String            @id @unique @default(uuid())
+  name            String
+  email           String            @unique
+  password        String?
+  photoUrl        String?           @default("https://i.ibb.co.com/mJrrGf8/Whats-App-Image-2025-01-17-at-11-15-33-AM.jpg")
+  loginProvider   ELoginProvider    @default(normalEmail)
+  role            EUserRole         @default(USER)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  isBlocked       Boolean           @default(false)
+  isVerified      Boolean           @default(false)
+  gId             String?           @unique 
+  review          Review?
+  VerificationOtp VerificationOtp[] 
+  Subscription   Subscription[]
+  Payment         Payment[]
+}
+ 
+ model Faq {
+  id        String @id @unique @default(uuid())
+  question String
+  answer   String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+ }
+ model SubscriptionPlan {
+  id        String @id @unique @default(uuid())
+  name      String
+  description String
+  days        Int
+  isFeatured  Boolean  
+  price       Float
+  stripePriceId String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt 
+  Subscription    Subscription[]
+ }
+ enum ESubscription {
+  pending
+  ongoing
+  expired
+  cancelled
+
+ }
+ model Subscription {
+  id        String @id @unique @default(uuid())
+  ownById   String
+  ownBy     User             @relation(fields: [ownById], references: [id], onDelete: Cascade)
+  subscriptionPlanId     String
+  status      ESubscription
+  subscriptionPlan    SubscriptionPlan @relation(fields: [subscriptionPlanId], references: [id], onDelete: Cascade)
+
+  payment     Payment?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt 
+
+ }
+
+
+model Payment {
+  id                   String   @id @default(uuid())
+  userId               String
+  subscriptionId       String @unique   // link to local subscription if needed
+  subscription  Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  stripePaymentIntentId String?  // optional for one-time payments
+  stripeSubscriptionId  String?  // for recurring subscriptions
+  amount               Int      // stored in cents
+  currency             String   @default("usd")
+  status               String    
+    createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt   
+
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id                   String   @id @default(uuid())
+  userId               String @unique
+  star                Int 
+  reviewText          String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+}
+enum EUserRole {
+  SUPER_ADMIN
+  ADMIN
+  USER
+}
+
+enum ELoginProvider {
+  google
+  normalEmail
+}
+
+enum EVerificationOtp {
+  createUser
+  forgotPassword
+  deleteUser
+  adminLogin
+}
+
+enum EBlogStatus {
+  approved
+  pending
+  denied
+}
