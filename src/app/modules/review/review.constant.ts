@@ -1,9 +1,2 @@
-
-           export const reviewSearchableFields = [ 
-            
-          ];
-          export const reviewFilterAbleFields = [
-              
-            ];
-            
-          
+export const reviewSearchableFields = [];
+export const reviewFilterAbleFields = ['userId'];

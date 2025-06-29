@@ -1,4 +1,4 @@
-import { EBlogStatus, EUserRole, Prisma, User } from '@prisma/client';
+import { EUserRole, Prisma, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
@@ -6,11 +6,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 import { userSearchableFields } from './user.constant';
-import {
-  IAdminChartInfo,
-  IAdminOverview,
-  IUserFilters,
-} from './user.interface';
+import { IUserFilters } from './user.interface';
 
 const getAllUser = async (
   filters: IUserFilters,
@@ -167,83 +163,83 @@ const deleteUser = async (id: string): Promise<User | null> => {
   }
   return result;
 };
-const getAdminOverview = async (): Promise<IAdminOverview | null> => {
-  const [
-    totalUser,
-    totalBook,
-    totalBlog,
-    totalNewsletter,
-    totalAuthor,
-    totalPublisher,
-    totalCategory,
-    totalWishList,
-  ] = await Promise.all([
-    prisma.user.count(),
-    prisma.book.count(),
-    prisma.blog.count(),
-    prisma.newsLetter.count(),
-    prisma.author.count(),
-    prisma.publisher.count(),
-    prisma.bookCategory.count(),
-    prisma.wishlist.count(),
-  ]);
+// const getAdminOverview = async (): Promise<IAdminOverview | null> => {
+//   const [
+//     totalUser,
+//     totalBook,
+//     totalBlog,
+//     totalNewsletter,
+//     totalAuthor,
+//     totalPublisher,
+//     totalCategory,
+//     totalWishList,
+//   ] = await Promise.all([
+//     prisma.user.count(),
+//     prisma.book.count(),
+//     prisma.blog.count(),
+//     prisma.newsLetter.count(),
+//     prisma.author.count(),
+//     prisma.publisher.count(),
+//     prisma.bookCategory.count(),
+//     prisma.wishlist.count(),
+//   ]);
 
-  return {
-    totalUser,
-    totalBook,
-    totalBlog,
-    totalNewsletter,
-    totalAuthor,
-    totalPublisher,
-    totalCategory,
-    totalWishList,
-  };
-};
-const getAdminChartInfo = async (): Promise<IAdminChartInfo | null> => {
-  // get top 10 book with hest totalRead
-  const [topBook, totalPublishBlog, totalPendingBlog, totalDeniedBlog] =
-    await Promise.all([
-      prisma.book.findMany({
-        select: {
-          name: true,
-          id: true,
-          totalRead: true,
-        },
-        orderBy: {
-          totalRead: 'desc',
-        },
-        take: 10,
-      }),
-      prisma.blog.count({
-        where: {
-          status: EBlogStatus.approved,
-        },
-      }),
-      prisma.blog.count({
-        where: {
-          status: EBlogStatus.pending,
-        },
-      }),
-      prisma.blog.count({
-        where: {
-          status: EBlogStatus.denied,
-        },
-      }),
-    ]);
+//   return {
+//     totalUser,
+//     totalBook,
+//     totalBlog,
+//     totalNewsletter,
+//     totalAuthor,
+//     totalPublisher,
+//     totalCategory,
+//     totalWishList,
+//   };
+// };
+// const getAdminChartInfo = async (): Promise<IAdminChartInfo | null> => {
+//   // get top 10 book with hest totalRead
+//   const [topBook, totalPublishBlog, totalPendingBlog, totalDeniedBlog] =
+//     await Promise.all([
+//       prisma.book.findMany({
+//         select: {
+//           name: true,
+//           id: true,
+//           totalRead: true,
+//         },
+//         orderBy: {
+//           totalRead: 'desc',
+//         },
+//         take: 10,
+//       }),
+//       prisma.blog.count({
+//         where: {
+//           status: EBlogStatus.approved,
+//         },
+//       }),
+//       prisma.blog.count({
+//         where: {
+//           status: EBlogStatus.pending,
+//         },
+//       }),
+//       prisma.blog.count({
+//         where: {
+//           status: EBlogStatus.denied,
+//         },
+//       }),
+//     ]);
 
-  return {
-    topBook,
-    totalPublishBlog,
-    totalPendingBlog,
-    totalDeniedBlog,
-  };
-};
+//   return {
+//     topBook,
+//     totalPublishBlog,
+//     totalPendingBlog,
+//     totalDeniedBlog,
+//   };
+// };
 export const UserService = {
   getAllUser,
   createUser,
   updateUser,
   getSingleUser,
   deleteUser,
-  getAdminOverview,
-  getAdminChartInfo,
+  // getAdminOverview,
+  // getAdminChartInfo,
 };

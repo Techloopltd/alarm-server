@@ -2,7 +2,9 @@ import { UserRoutes } from '../modules/user/user.router';
 
 import express from 'express';
 import { AuthRoutes } from '../modules/auth/auth.route';
+import { FaqRoutes } from '../modules/faq/faq.router';
 import { fileUploadRoutes } from '../modules/fileUpload/fileUpload.route';
+import { ReviewRoutes } from '../modules/review/review.router';
 const router = express.Router();
 
 const moduleRoutes = [
@@ -19,6 +21,14 @@ const moduleRoutes = [
   {
     path: '/file-upload',
     route: fileUploadRoutes,
+  },
+  {
+    path: '/faq',
+    route: FaqRoutes,
+  },
+  {
+    path: '/review',
+    route: ReviewRoutes,
   },
 ];
 

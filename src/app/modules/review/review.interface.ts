@@ -1,5 +1,3 @@
-
-          export type IReviewFilters = {
-              searchTerm?: string;
-            }; 
-          
+export type IReviewFilters = {
+  searchTerm?: string;
+};

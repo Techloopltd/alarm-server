@@ -1,5 +1,3 @@
-
-          export type IFaqFilters = {
-              searchTerm?: string;
-            }; 
-          
+export type IFaqFilters = {
+  searchTerm?: string;
+};

@@ -1,9 +1,2 @@
-
-           export const faqSearchableFields = [ 
-            
-          ];
-          export const faqFilterAbleFields = [
-              
-            ];
-            
-          
+export const faqSearchableFields = [];
+export const faqFilterAbleFields = [];

@@ -8,7 +8,6 @@ import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { userFilterAbleFields } from './user.constant';
-import { IAdminChartInfo, IAdminOverview } from './user.interface';
 import { UserService } from './user.service';
 const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -97,30 +96,30 @@ const uploadSingleFile: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-const getAdminOverview: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await UserService.getAdminOverview();
+// const getAdminOverview: RequestHandler = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const result = await UserService.getAdminOverview();
 
-    sendResponse<IAdminOverview>(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Admin overview retrieved  successfully!',
-      data: result,
-    });
-  },
-);
-const getAdminChartInfo: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await UserService.getAdminChartInfo();
+//     sendResponse<IAdminOverview>(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'Admin overview retrieved  successfully!',
+//       data: result,
+//     });
+//   },
+// );
+// const getAdminChartInfo: RequestHandler = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const result = await UserService.getAdminChartInfo();
 
-    sendResponse<IAdminChartInfo>(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Admin chart info retrieved  successfully!',
-      data: result,
-    });
-  },
-);
+//     sendResponse<IAdminChartInfo>(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'Admin chart info retrieved  successfully!',
+//       data: result,
+//     });
+//   },
+// );
 
 export const UserController = {
   getAllUser,
@@ -129,6 +128,6 @@ export const UserController = {
   getSingleUser,
   deleteUser,
   uploadSingleFile,
-  getAdminOverview,
-  getAdminChartInfo,
+  // getAdminOverview,
+  // getAdminChartInfo,
 };

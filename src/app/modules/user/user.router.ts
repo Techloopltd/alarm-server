@@ -11,16 +11,16 @@ router.get(
   auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN),
   UserController.getAllUser,
 );
-router.get(
-  '/admin/overview',
-  auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN),
-  UserController.getAdminOverview,
-);
-router.get(
-  '/admin/chart-overview',
-  auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN),
-  UserController.getAdminChartInfo,
-);
+// router.get(
+//   '/admin/overview',
+//   auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN),
+//   UserController.getAdminOverview,
+// );
+// router.get(
+//   '/admin/chart-overview',
+//   auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN),
+//   UserController.getAdminChartInfo,
+// );
 router.get(
   '/:id',
   auth(EUserRole.ADMIN, EUserRole.SUPER_ADMIN, EUserRole.USER),
