@@ -45,5 +45,11 @@ router.patch(
   UserController.updateUser,
 );
 router.delete('/:id', auth(EUserRole.SUPER_ADMIN), UserController.deleteUser);
+router.delete(
+  '/',
+  validateRequest(UserValidation.bulkDeleteValidation),
+  auth(EUserRole.SUPER_ADMIN),
+  UserController.bulkDeleteUser,
+);
 
 export const UserRoutes = router;

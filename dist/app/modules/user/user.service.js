@@ -144,6 +144,20 @@ const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return result;
 });
+const bulkDeleteUser = (ids, requestedUserId) => __awaiter(void 0, void 0, void 0, function* () {
+    // check is requestedUserId is exits on ids
+    const isRequestedUserExists = ids.includes(requestedUserId);
+    if (isRequestedUserExists) {
+        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'You are not allowed to delete supper admin !');
+    }
+    const result = yield prisma_1.default.user.deleteMany({
+        where: { id: { in: ids } },
+    });
+    if (!result) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found!');
+    }
+    return result;
+});
 // const getAdminOverview = async (): Promise<IAdminOverview | null> => {
 //   const [
 //     totalUser,
@@ -219,6 +233,7 @@ exports.UserService = {
     updateUser,
     getSingleUser,
     deleteUser,
+    bulkDeleteUser,
     // getAdminOverview,
     // getAdminChartInfo,
 };

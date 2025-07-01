@@ -74,6 +74,17 @@ const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const bulkDeleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const body = req.body;
+    const user = req.user;
+    const result = yield user_service_1.UserService.bulkDeleteUser(body, user.userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User deleted successfully!',
+        data: result,
+    });
+}));
 const uploadSingleFile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     (0, sendResponse_1.default)(res, {
@@ -114,4 +125,5 @@ exports.UserController = {
     uploadSingleFile,
     // getAdminOverview,
     // getAdminChartInfo,
+    bulkDeleteUser,
 };

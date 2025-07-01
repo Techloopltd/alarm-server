@@ -36,4 +36,5 @@ router.get('/:id', (0, auth_1.default)(client_1.EUserRole.ADMIN, client_1.EUserR
 // );
 router.patch('/:id', (0, auth_1.default)(client_1.EUserRole.ADMIN, client_1.EUserRole.SUPER_ADMIN, client_1.EUserRole.USER), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateValidation), user_controller_1.UserController.updateUser);
 router.delete('/:id', (0, auth_1.default)(client_1.EUserRole.SUPER_ADMIN), user_controller_1.UserController.deleteUser);
+router.delete('/', (0, validateRequest_1.default)(user_validation_1.UserValidation.bulkDeleteValidation), (0, auth_1.default)(client_1.EUserRole.SUPER_ADMIN), user_controller_1.UserController.bulkDeleteUser);
 exports.UserRoutes = router;

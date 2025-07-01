@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { RequestHandler } from 'express-serve-static-core';
 import httpStatus from 'http-status';
@@ -86,6 +86,20 @@ const deleteUser: RequestHandler = catchAsync(
     });
   },
 );
+const bulkDeleteUser: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+    const user = req.user as JwtPayload;
+    const result = await UserService.bulkDeleteUser(body, user.userId);
+
+    sendResponse<Prisma.BatchPayload>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User deleted successfully!',
+      data: result,
+    });
+  },
+);
 const uploadSingleFile: RequestHandler = catchAsync(async (req, res) => {
   const data = req.body;
   sendResponse<{ url: string }>(res, {
@@ -130,4 +144,5 @@ export const UserController = {
   uploadSingleFile,
   // getAdminOverview,
   // getAdminChartInfo,
+  bulkDeleteUser,
 };
