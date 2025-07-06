@@ -152,7 +152,7 @@ const googleLogin = async (idToken: string): Promise<ILoginResponse> => {
   );
 
   return {
-    user: { id, ...others },
+    user: { id, ...others, loginProvider: ELoginProvider.google },
     accessToken,
     refreshToken,
   };
@@ -203,6 +203,12 @@ const loginAdmin = async (payload: ILogin): Promise<{ otp: string }> => {
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+  if (isUserExist.loginProvider === ELoginProvider.google) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'This account was created using Google Sign-In. Please use the Google Sign-In button to log in instead of email/password.',
+    );
   }
   if (
     isUserExist.password &&
