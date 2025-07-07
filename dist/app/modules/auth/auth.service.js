@@ -161,7 +161,7 @@ const googleLogin = (idToken) => __awaiter(void 0, void 0, void 0, function* () 
     const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId: id, role: user.role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ userId: id, role: user.role }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
     return {
-        user: Object.assign({ id }, others),
+        user: Object.assign(Object.assign({ id }, others), { loginProvider: client_1.ELoginProvider.google }),
         accessToken,
         refreshToken,
     };
@@ -195,6 +195,9 @@ const loginAdmin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     });
     if (!isUserExist) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
+    }
+    if (isUserExist.loginProvider === client_1.ELoginProvider.google) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'This account was created using Google Sign-In. Please use the Google Sign-In button to log in instead of email/password.');
     }
     if (isUserExist.password &&
         !(yield bcryptjs_1.default.compare(password, isUserExist.password))) {

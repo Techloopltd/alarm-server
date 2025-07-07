@@ -8,7 +8,11 @@ const express_1 = __importDefault(require("express"));
 const auth_route_1 = require("../modules/auth/auth.route");
 const faq_router_1 = require("../modules/faq/faq.router");
 const fileUpload_route_1 = require("../modules/fileUpload/fileUpload.route");
+const payment_router_1 = require("../modules/payment/payment.router");
+const profile_router_1 = require("../modules/profile/profile.router");
 const review_router_1 = require("../modules/review/review.router");
+const subscription_router_1 = require("../modules/subscription/subscription.router");
+const subscriptionPlan_router_1 = require("../modules/subscriptionPlan/subscriptionPlan.router");
 const router = express_1.default.Router();
 const moduleRoutes = [
     // ... routes
@@ -31,6 +35,22 @@ const moduleRoutes = [
     {
         path: '/review',
         route: review_router_1.ReviewRoutes,
+    },
+    {
+        path: '/profile',
+        route: profile_router_1.ProfileRoutes,
+    },
+    {
+        path: '/payment',
+        route: payment_router_1.PaymentRoutes,
+    },
+    {
+        path: '/subscribe',
+        route: subscription_router_1.SubscriptionRoutes,
+    },
+    {
+        path: '/subscriptionPlan',
+        route: subscriptionPlan_router_1.SubscriptionPlanRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));

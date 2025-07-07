@@ -47,7 +47,7 @@ model User {
   name      String
   description String
   days        Int
-  isFeatured  Boolean  
+  isFeatured  Boolean  @default(false)
   price       Float
   stripePriceId String?
   createdAt       DateTime          @default(now())
